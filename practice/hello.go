@@ -1,16 +1,21 @@
 package main
 
-import "fmt"
-
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
+	ch := make(chan int, 5)
 
-	language := struct {
-		name string
-		isGood bool
-	} {"Golang", true}
-  
+	go func() {
+		for i := range 10 {
+			fmt.Println("sent data ", i)
+			ch <- i
+		}
+	}()
 
-	fmt.Println(language)
+	time.Sleep(time.Second * 5)
+	println(<-ch)
 
 }
